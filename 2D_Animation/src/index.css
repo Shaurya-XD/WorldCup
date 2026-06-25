@@ -25,3 +25,48 @@
         transform: translateX(-100%);
     }
 }
+
+.move-text {
+    animation-name: movingAnimation;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+
+@keyframes movingAnimation {
+    from{
+        transform: translateX(100vw);
+    }
+    to{
+        transform: translateX(-90vw);
+    }
+}
+
+.move-text2 {
+    animation-name: moving2Animation;
+    animation-duration: 10s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-delay: 4.7s;
+}
+
+@keyframes moving2Animation {
+    from{
+        opacity: 1;
+        transform: translateX(100vw);
+    }
+    to{
+        opacity: 1;
+        transform: translateX(-90vw);
+    }
+}
+
+
+.card{
+    overflow:hidden;
+}
+
+.card-inner{
+    will-change:transform;
+    transform-origin:center;
+}
