@@ -15,7 +15,7 @@ const Navbar = () => {
 
     return (
         <>
-            <div className='fixed top-0 w-full flex justify-between z-30'>
+            <div className='fixed top-0 w-full flex justify-between z-[60]'>
                 <img onClick={() => playTransition('/')} className='h-[4.5vw] py-2 px-3' src={football2} />
                 <div onClick={() => setIsNavOpen(true)} className='h-[5.5vh] w-[14vw] bg-black' onMouseEnter={() =>{
                     navColorRef.current.style.height = '5.5vh'

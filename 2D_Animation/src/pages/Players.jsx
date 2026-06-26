@@ -181,8 +181,8 @@ const Players = () => {
           <div onMouseLeave={handleMouseExit} onMouseEnter={()=> handleMouseEnter(EH9)}><PlayerCard name={'Erling Haaland'} goals={350} /></div>
           <div onMouseLeave={handleMouseExit} onMouseEnter={()=> handleMouseEnter(KD7)}><PlayerCard name={'Kevin De Bruyne'} goals={186} /></div>
           <div onMouseLeave={handleMouseExit} onMouseEnter={()=> handleMouseEnter(M10)}><PlayerCard name={'Luka Modrić'} goals={177} /></div>
-          <div onMouseLeave={handleMouseExit} onMouseEnter={()=> handleMouseEnter(VD4)}><PlayerCard name={'Virgil van Dijk'} goals={69} /></div>
           <div onMouseLeave={handleMouseExit} onMouseEnter={()=> handleMouseEnter(JB10)}><PlayerCard name={'Jude Bellingham'} goals={80} /></div>
+          <div onMouseLeave={handleMouseExit} onMouseEnter={()=> handleMouseEnter(VD4)}><PlayerCard name={'Virgil Van Dijk'} goals={69} /></div>
           <div onMouseLeave={handleMouseExit} onMouseEnter={()=> handleMouseEnter(LY10)}><PlayerCard name={'Lamine Yamal'} goals={50} /></div>
           <div onMouseLeave={handleMouseExit} onMouseEnter={()=> handleMouseEnter(MN1)}><PlayerCard name={'Manuel Neuer'} goals={0} /></div>
           <div className='w-full h-[30vh] bg-black'></div>
