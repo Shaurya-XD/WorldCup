@@ -10,17 +10,21 @@ import spain from '../assets/TeamSpain.jpg'
 import TeamCard from '../components/teams/TeamCard'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
-import { ScrollTrigger } from 'gsap/all'
 import trophy from '../assets/trophy.png'
-
-gsap.registerPlugin(ScrollTrigger)
+import { useTransition } from '../context/TransitionContext'
 
 const Teams = () => {
-  const sectionRef = useRef(null)
-  // const teamInfo = useRef(null)
-  // const [name, setName] = useState("")
-  // const [win, setWin] = useState(0)
-  // const [n, setN] = useState(0)
+  const sectionRef = useRef(null);
+  const menu = useRef(null)
+  const players = useRef(null)
+  const teams = useRef(null)
+  const navPanel = useRef(null)
+  const text1 = useRef(null)
+  const text2 = useRef(null)
+  const text3 = useRef(null)
+  const line1 = useRef(null)
+  const line2 = useRef(null)
+  const { playTransition } = useTransition()
 
   useGSAP(() => {
     gsap.from(
@@ -39,45 +43,87 @@ const Teams = () => {
       }
     );
 
-    ScrollTrigger.refresh();
+    gsap.set(navPanel.current, {
+      translateY: '-100%'
+    })
+
+    gsap.to(navPanel.current, {
+      translateY: '0%'
+    })
+
   }, { scope: sectionRef });
 
-  // const handleMouseEnter = () => {
-  //   gsap.to(teamInfo.current, {
-  //     translateY: '0%'
-  //   })
-  // }
+  const hoverNav = (panel) => {
+    gsap.to(panel.current, {
+      translateY: '0%',
+      duration: 0.2
+    })
+  }
 
-  // const handleMouseExit = () => {
-  //   gsap.to(teamInfo.current, {
-  //     translateY: '-100%'
-  //   })
-  // }
+  const hoverNavEnd = (panel) => {
+    gsap.to(panel.current, {
+      translateY: '-100%',
+      duration: 0.2
+    })
+  }
+
+  window.addEventListener("mousemove", (e) => {
+    const pageHeight = document.documentElement.scrollHeight;
+
+    if (e.pageY > pageHeight * 0.46) {
+      gsap.to(navPanel.current, {
+        translateY: '-100%'
+      })
+    } else {
+      gsap.to(navPanel.current, {
+        translateY: '0%'
+      })
+    }
+  });
 
   return (
     <div className='p-4 overflow-hidden'>
 
-      {/* <div ref={teamInfo} className='fixed w-full h-[10.5vh] top-[0] left-0 z-[55] -translate-y-full'>
-        <div className='h-full w-full'>
-          <div className='bg-green-100 w-full h-[5.5vh]'></div>
-          <div className='w-full h-[5vh] border-b-2 border-t-2 bg-green-300 flex justify-between items-center'>
-            <h2 className='pl-[4.5vw] font-[font2] text-[4vh] uppercase'>{name}</h2>
-            <div className='flex justify-start -space-x-[2vw]'>
-              {Array.from({ length: n }).map((_, index) => (
-                <img
-                  key={index}
-                  className="h-[11vh] pr-[7vw] -mt-[4.5vh] object-cover"
-                  src={trophy}
-                  alt="Trophy"
-                />
-              ))}
-            </div>
-            <h2 className='font-[font2] text-[4vh] uppercase'>{win}%</h2>
-          </div>
+      <div ref={navPanel} className='w-full absolute top-0 left-0 h-[15vh] flex justify-end z-[70]'>
+        <div onClick={() => playTransition('/teams')} onMouseEnter={() => {
+          hoverNav(teams)
+          text1.current.style.color = "black"
+        }} onMouseLeave={() => {
+          hoverNavEnd(teams)
+          text1.current.style.color = "white"
+        }} className='bg-black h-[7vh] w-[20vw] overflow-hidden relative'>
+          <h3 ref={text1} className='absolute z-[80] text-white bottom-0 px-[0.5vw] text-[2.1vh] uppercase font-[font2]'>Teams</h3>
+          <div ref={teams} className='bg-[#D3FD50] h-full w-full -translate-y-full'></div>
         </div>
-      </div> */}
+        <div onClick={() => playTransition('/players')} onMouseEnter={() => {
+          hoverNav(players)
+          text2.current.style.color = "black"
+        }} onMouseLeave={() => {
+          hoverNavEnd(players)
+          text2.current.style.color = "white"
+        }} className='bg-black h-[11vh] w-[30vw] overflow-hidden relative'>
+          <h3 ref={text2} className='absolute z-[80] text-white bottom-0 px-[0.5vw] text-[2.1vh] uppercase font-[font2]'>Players</h3>
+          <div ref={players} className='bg-[#D3FD50] h-full w-full -translate-y-full'></div>
+        </div>
+        <div onClick={() => playTransition('/')} onMouseEnter={() => {
+          hoverNav(menu)
+          text3.current.style.color = "black"
+          line1.current.style.backgroundColor = "black"
+          line2.current.style.backgroundColor = "black"
+        }} onMouseLeave={() => {
+          hoverNavEnd(menu)
+          text3.current.style.color = "white"
+          line1.current.style.backgroundColor = "white"
+          line2.current.style.backgroundColor = "white"
+        }} className=' bg-black relative h-full w-[14vw] overflow-hidden'>
+          <h3 ref={text3} className='absolute z-[80] text-white bottom-0 px-[0.5vw] text-[2.1vh] uppercase font-[font2]'>Home</h3>
+          <div ref={line1} className='w-[3vw] h-[0.1vh] mt-[2.5vh] absolute right-0 mr-[1.7vw] z-[80] bg-white'></div>
+          <div ref={line2} className='w-[1.5vw] h-[0.1vh] mt-[3.1vh] absolute right-0 z-[80] mr-[1.7vw] bg-white'></div>
+          <div ref={menu} className='bg-[#D3FD50] h-full w-full -translate-y-full'></div>
+        </div>
+      </div>
 
-      <div className=' pt-[45vh] '>
+      <div className=' pt-[40vh] '>
         <h2 className='font-[font2] text-[10vw] uppercase'>Teams</h2>
       </div>
       <div ref={sectionRef} className='-mt-[8vh] flex flex-col gap-3'>

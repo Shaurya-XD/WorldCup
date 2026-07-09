@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import NavItem from './NavItem'
-
+import { useTransition } from '../../context/TransitionContext'
 import portugal from '../../assets/Portugal.jpeg'
 import argentina from '../../assets/Argentina.jpeg'
 import football2 from '../../assets/football2.png'
@@ -8,6 +8,7 @@ import gsap from 'gsap'
 import { useGSAP } from "@gsap/react";
 
 const FullScreenNav = ({ setIsNavOpen, isNavOpen }) => {
+    const { playTransition } = useTransition();
     const contents = useRef(null)
     const stairParentRef = useRef(null)
 
@@ -36,13 +37,11 @@ const FullScreenNav = ({ setIsNavOpen, isNavOpen }) => {
             }
         )
 
-        // Immediately reveal content when stairs finish
         tl.set(contents.current, {
             opacity: 1,
             duration: 0.15
         }, "-=0.6")
 
-        // Immediately remove the stair overlay
         tl.set(stairParentRef.current, {
             display: 'none'
         }, "-=0.6")
@@ -83,7 +82,7 @@ const FullScreenNav = ({ setIsNavOpen, isNavOpen }) => {
 
     return (
         <>
-            <div ref={contents} className={`h-screen w-screen absolute bg-black text-white z-[100] overflow-hidden `}>
+            <div ref={contents} className={`h-screen w-screen fixed top-0 left-0 bg-black text-white z-[100] overflow-hidden `}>
                 <div className='absolute top-0 flex justify-between w-full'>
                     <img onClick={() => {
                         playReveal()
@@ -92,26 +91,47 @@ const FullScreenNav = ({ setIsNavOpen, isNavOpen }) => {
                 </div>
                 <div className='flex flex-col justify-center h-full w-full'>
 
-                    <NavItem
-                        title='Teams'
-                        image1={portugal}
-                        image2={argentina}
-                        info='Best Squads'
-                    />
+                    <div onClick={() => {
+                        playTransition('/teams')
+                        setTimeout(() => {
+                            setIsNavOpen(false);
+                        }, 600);
+                    }}>
+                        <NavItem
+                            title='Teams'
+                            image1={portugal}
+                            image2={argentina}
+                            info='Best Squads'
+                        />
+                    </div>
 
-                    <NavItem
-                        title='Players'
-                        image1={portugal}
-                        image2={argentina}
-                        info='lol'
-                    />
+                    <div onClick={() => {
+                        playTransition('/players')
+                        setTimeout(() => {
+                            setIsNavOpen(false);
+                        }, 600);
+                    }}>
+                        <NavItem
+                            title='Players'
+                            image1={portugal}
+                            image2={argentina}
+                            info='Best Players'
+                        />
+                    </div>
 
-                    <NavItem
-                        title='Home'
-                        image1={portugal}
-                        image2={argentina}
-                        info='hahaahha'
-                    />
+                    <div onClick={() => {
+                        playTransition('/')
+                        setTimeout(() => {
+                            setIsNavOpen(false);
+                        }, 600);
+                    }}>
+                        <NavItem
+                            title='Home'
+                            image1={portugal}
+                            image2={argentina}
+                            info='~beginning~'
+                        />
+                    </div>
 
                 </div>
             </div>

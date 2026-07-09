@@ -18,8 +18,8 @@ const App = () => {
 
   useEffect(() => {
     const lenis = new Lenis({
-      wheelMultiplier: 0.6,
-      lerp: 0.08,
+      wheelMultiplier: 0.7,
+      lerp: 0.07,
     });
 
     lenis.on("scroll", ScrollTrigger.update);

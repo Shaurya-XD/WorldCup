@@ -15,6 +15,7 @@ import LY10 from '../assets/LY10.png'
 import NJ10 from '../assets/NJ10.png'
 import M10 from '../assets/M10.png'
 import PlayerCard from '../components/players/PlayerCard'
+import { useTransition } from '../context/TransitionContext'
 
 
 const Players = () => {
@@ -26,6 +27,16 @@ const Players = () => {
   const imageBottom = useRef(null)
   const panelImage = useRef(null)
   const backPanel = useRef(null)
+  const menu = useRef(null)
+  const players = useRef(null)
+  const teams = useRef(null)
+  const navPanel = useRef(null)
+  const text1 = useRef(null)
+  const text2 = useRef(null)
+  const text3 = useRef(null)
+  const line1 = useRef(null)
+  const line2 = useRef(null)
+  const { playTransition } = useTransition()
 
   const imageArray = [
     CR7,
@@ -95,7 +106,6 @@ const Players = () => {
 
     gsap.to(section2Ref.current, {
       backgroundColor: "#000",
-      marker: true,
       ease: "none",
       scrollTrigger: {
         trigger: section2Ref.current,
@@ -104,6 +114,14 @@ const Players = () => {
         scrub: true,
       },
     });
+
+    gsap.set(navPanel.current, {
+      translateY: '-100%'
+    })
+
+    gsap.to(navPanel.current, {
+      translateY: '0%'
+    })
 
     const tween = gsap.to(backPanel.current, {
       scrollTrigger: {
@@ -119,8 +137,62 @@ const Players = () => {
 
   }, [])
 
+  const hoverNav = (panel) => {
+    gsap.to(panel.current, {
+      translateY: '0%',
+      duration: 0.2
+    })
+  }
+
+  const hoverNavEnd = (panel) => {
+    gsap.to(panel.current, {
+      translateY: '-100%',
+      duration: 0.2
+    })
+  }
+
   return (
-    <div ref={section2Ref} className='no-scrollbar overflow-hidden'>
+    <div ref={section2Ref} className='overflow-hidden'>
+
+      <div ref={navPanel} className='w-full absolute top-0 left-0 h-[15vh] flex justify-end z-[70]'>
+        <div onClick={() => playTransition('/teams')} onMouseEnter={()=>{
+          hoverNav(teams)
+          text1.current.style.color = "black"
+        }} onMouseLeave={() =>{
+          hoverNavEnd(teams)
+          text1.current.style.color = "white"
+        } } className='bg-black h-[7vh] w-[20vw] overflow-hidden relative'>
+          <h3 ref={text1} className='absolute z-[80] text-white bottom-0 px-[0.5vw] text-[2.1vh] uppercase font-[font2]'>Teams</h3>
+          <div ref={teams} className='bg-[#D3FD50] h-full w-full -translate-y-full'></div>
+        </div>
+        <div onClick={() => playTransition('/players')} onMouseEnter={()=>{
+           hoverNav(players)
+           text2.current.style.color = "black"
+        }} onMouseLeave={() =>{
+          hoverNavEnd(players)
+          text2.current.style.color = "white"
+        }} className='bg-black h-[11vh] w-[30vw] overflow-hidden relative'>
+          <h3 ref={text2} className='absolute z-[80] text-white bottom-0 px-[0.5vw] text-[2.1vh] uppercase font-[font2]'>Players</h3>
+          <div ref={players} className='bg-[#D3FD50] h-full w-full -translate-y-full'></div>
+        </div>
+        <div onClick={() => playTransition('/')} onMouseEnter={()=>{
+          hoverNav(menu)
+          text3.current.style.color = "black"
+          line1.current.style.backgroundColor = "black"
+          line2.current.style.backgroundColor = "black"
+        }} onMouseLeave={() =>{
+          hoverNavEnd(menu)
+          text3.current.style.color = "white"
+          line1.current.style.backgroundColor = "white"
+          line2.current.style.backgroundColor = "white"
+        }} className=' bg-black relative h-full w-[14vw] overflow-hidden'>
+          <h3 ref={text3} className='absolute z-[80] text-white bottom-0 px-[0.5vw] text-[2.1vh] uppercase font-[font2]'>Home</h3>
+          <div ref={line1} className='w-[3vw] h-[0.1vh] mt-[2.5vh] absolute right-0 mr-[1.7vw] z-[80] bg-white'></div>
+          <div ref={line2} className='w-[1.5vw] h-[0.1vh] mt-[3.1vh] absolute right-0 z-[80] mr-[1.7vw] bg-white'></div>
+          <div ref={menu} className='bg-[#D3FD50] h-full w-full -translate-y-full'></div>
+        </div>
+      </div>
+
       <div className='section-1'>
         <div ref={imageDivRef} className='absolute rounded-3xl top-[17.5vw] left-[30vw] h-[20vw] w-[13.5vw] overflow-hidden'>
           <img src={Background} className='absolute z-0 h-full w-full' />
